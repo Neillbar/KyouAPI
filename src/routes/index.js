@@ -4,6 +4,7 @@ var middleWare = require('../middleware');
 var initializeDB = require('../db');
 var Users = require('../controllers/Users');
 var hospitals = require('../controllers/Hospitals');
+var data = require('../controllers/data');
 
 
 let router = express();
@@ -18,6 +19,7 @@ router.use(middleWare({config,db}));
 
     router.use('/users',Users({config,db}));
     router.use('/hospitals',hospitals({config,db}));
+    router.use('/data',data({config,db}));
 
 });
 

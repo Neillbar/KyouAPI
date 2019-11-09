@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "NODE_ENV-development nodemon -w src --exec \"babel-node src --presets es2015,stage-0\"",
     "build": "babel src -s -D -d dist --presets es2015,stage-0",
-    "start": "NODE_ENV-production pm2 start dist",
+    "start": "nodemon ./src/index.js",
     "prestart": "npm run -s build",
     "lint": "eslint src",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -30,6 +30,7 @@
     "body-parser": "^1.19.0",
     "esm": "^3.2.25",
     "express": "^4.17.1",
+    "md5": "^2.2.1",
     "mongoose": "^5.7.5"
   },
   "devDependencies": {

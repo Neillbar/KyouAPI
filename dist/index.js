@@ -1,3 +1,5 @@
+'use strict';
+
 var express = require('express');
 var http = require('http');
 var bodyParser = require('body-parser');
@@ -5,8 +7,7 @@ var mongoose = require('mongoose');
 var config = require('./config');
 var routes = require('./routes');
 
-
-let app = express();
+var app = express();
 app.server = http.createServer(app);
 
 //middleWare
@@ -15,9 +16,10 @@ app.server = http.createServer(app);
 app.use(bodyParser.json());
 
 //api route /api
-app.use('/api',routes);
+app.use('/api', routes);
 
 app.server.listen(config.port);
-console.log(`Started server on port ${app.server.address().port}`);
+console.log('Started server on port ' + app.server.address().port);
 
 module.exports = app;
+//# sourceMappingURL=index.js.map

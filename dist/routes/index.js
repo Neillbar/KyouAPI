@@ -1,24 +1,23 @@
+'use strict';
+
 var express = require('express');
 var config = require('../config');
 var middleWare = require('../middleware');
 var initializeDB = require('../db');
 var Users = require('../controllers/Users');
-var hospitals = require('../controllers/Hospitals');
 
-
-let router = express();
+var router = express();
 
 //connect to db
-initializeDB(db =>{
+initializeDB(function (db) {
 
     //internal middleware
-router.use(middleWare({config,db}));
+    router.use(middleWare({ config: config, db: db }));
 
     //api routes
 
-    router.use('/users',Users({config,db}));
-    router.use('/hospitals',hospitals({config,db}));
-
+    router.use('/users', Users({ config: config, db: db }));
 });
 
 module.exports = router;
+//# sourceMappingURL=index.js.map

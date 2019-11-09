@@ -3,7 +3,7 @@ var config = require('./config');
 
 module.exports =  callback => {
 
-    let db = mongoose.connect(config.mongoURL);
+    let db = mongoose.connect(config.mongoURL,{ useNewUrlParser: true });
     callback(db);
 
 }

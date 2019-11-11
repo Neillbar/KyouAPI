@@ -10,7 +10,8 @@ var UsersSchema = new Schema({
   idNumber: { type: String, required: true },
   email: { type: String, required: true },
   password: { type: String, required: true },
-  date: { type: Date, required: true, default: Date.now }
+  date: { type: Date, required: true, default: Date.now },
+  complaints: { type: [String] }
 });
 
 module.exports = mongoose.model("users", UsersSchema);

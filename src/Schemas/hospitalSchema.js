@@ -9,6 +9,8 @@ var hospitalSchema = new Schema ({
 "description":{type:String,required:true},
 "date": {type:Date,required:true,default:Date.now}
 
+
+
 })
 
 module.exports = mongoose.model("hospitals",hospitalSchema);

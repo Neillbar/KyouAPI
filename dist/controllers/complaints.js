@@ -1,5 +1,8 @@
 'use strict';
 
+//var attachments = require('../Schemas/attachmentsSchema');
+
+
 var addComplaint = function () {
     var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(req, res) {
         var findUser, randomID, newComplaint, savedComplaint, SaveComplaintToUser;
@@ -39,7 +42,7 @@ var addComplaint = function () {
                             break;
                         }
 
-                        return _context.abrupt('return', res.status(200).send({ message: "Success", ComplaintID: randomID }));
+                        return _context.abrupt('return', res.status(200).json({ message: "Success", ComplaintID: randomID }));
 
                     case 23:
                         return _context.abrupt('return', res.status(400).send({ message: "Failure Saving Data" }));
@@ -94,6 +97,45 @@ var getComplaintByID = function () {
     };
 }();
 
+var getallComplaintsForUser = function () {
+    var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(req, res) {
+        var findComplaints;
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+            while (1) {
+                switch (_context3.prev = _context3.next) {
+                    case 0:
+                        userID = req.params.userID;
+
+                        _context3.next = 3;
+                        return complaintScheme.find({ loggedBy: userID });
+
+                    case 3:
+                        findComplaints = _context3.sent;
+
+                        if (!(findComplaints.length < 1)) {
+                            _context3.next = 6;
+                            break;
+                        }
+
+                        return _context3.abrupt('return', res.status(400).send("No complaints found for this user"));
+
+                    case 6:
+
+                        res.status(200).json(findComplaints);
+
+                    case 7:
+                    case 'end':
+                        return _context3.stop();
+                }
+            }
+        }, _callee3, this);
+    }));
+
+    return function getallComplaintsForUser(_x5, _x6) {
+        return _ref3.apply(this, arguments);
+    };
+}();
+
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
 var mongoose = require('mongoose');
@@ -104,11 +146,10 @@ var _require = require('express'),
 var complaintScheme = require('../Schemas/complaintsSchema');
 var users = require('../Schemas/UsersSchema');
 var uniqid = require('uniqid');
-var attachments = require('../Schemas/attachmentsSchema');
 
-module.exports = function (_ref3) {
-    var config = _ref3.config,
-        db = _ref3.db;
+module.exports = function (_ref4) {
+    var config = _ref4.config,
+        db = _ref4.db;
 
 
     var api = Router();
@@ -119,6 +160,11 @@ module.exports = function (_ref3) {
 
     api.get('/getOneByID/:compid', function (req, res) {
         getComplaintByID(req, res);
+    });
+
+    api.get('/getAllComplaintsPerUser/:userID', function (req, res) {
+
+        getallComplaintsForUser(req, res);
     });
 
     return api;

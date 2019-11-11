@@ -45,6 +45,20 @@ res.status(200).json(findSpeseficComplaint);
 
 }
 
+async function getallComplaintsForUser(req,res){
+userID = req.params.userID;
+
+let findComplaints = await complaintScheme.find({loggedBy: userID});
+
+if(findComplaints.length < 1){
+    return res.status(400).send("No complaints found for this user");
+}
+
+res.status(200).json(findComplaints);
+
+
+}
+
 
 
 
@@ -58,6 +72,13 @@ module.exports = ({ config, db }) => {
 
 api.get('/getOneByID/:compid',(req,res) => {
     getComplaintByID(req,res)
+})
+
+api.get('/getAllComplaintsPerUser/:userID',(req,res) => {
+
+    getallComplaintsForUser(req,res);
+
+
 })
 
     return api;

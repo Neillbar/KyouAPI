@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var {Router} = require('express');
 const image2base64 = require('image-to-base64');
 var attachmentSchema = require('../Schemas/attachmentsSchema');
+var complaintSchema = require('../Schemas/complaintsSchema');
 const fs = require('fs');
 
 module.exports = ({config,db}) => {
@@ -25,16 +26,39 @@ module.exports = ({config,db}) => {
 
 
 api.post('/attachment',async (req,res) => {
-//take base64 to Buffer
-let decodedFile = Buffer.from(req.body.image.indexOf('base64') !== -1 ? req.body.image.split('base64,')[1] : req.body.image, 'base64');
+
+let FindComplaint = await complaintSchema.findOne({complaintID: req.body.complaintID});
+
+if(!FindComplaint){
+    return res.status(400).send("No complaints found can't add attachments");
+}
+
+
+
+// //take base64 to Buffer
+
+
+
     
 
-let checker = await attachmentSchema.findOne({name: req.body.name});
+let checker = await attachmentSchema.findOne({complaintsID: req.body.complaintID});
 
 if(!checker){
     var newAtt = new attachmentSchema();
-    newAtt.name = req.body.name;
-    newAtt.image.push(decodedFile);
+    newAtt.complaintsID = req.body.complaintID;
+    
+    if (req.body.type == "image"){
+        let decodedImage = Buffer.from(req.body.image.indexOf('base64') !== -1 ? req.body.image.split('base64,')[1] : req.body.image, 'base64');
+        newAtt.image.push(decodedImage);
+    }
+    
+    if(req.body.type == "recording"){
+    
+        let decodedRecording = Buffer.from(req.body.recording.indexOf('base64') !== -1 ? req.body.recording.split('base64,')[1] : req.body.recording, 'base64');
+        newAtt.recording = decodedRecording;
+    }
+    
+    
     let newentry = await newAtt.save();
     if(newentry){
         res.send(newentry);
@@ -42,7 +66,16 @@ if(!checker){
     
 }else{
 
-checker.image.push(decodedFile);
+    if (req.body.type == "image"){
+        let decodedImage = Buffer.from(req.body.image.indexOf('base64') !== -1 ? req.body.image.split('base64,')[1] : req.body.image, 'base64');
+        checker.image.push(decodedImage);
+    }
+    
+    if(req.body.type == "recording"){
+    
+        let decodedRecording = Buffer.from(req.body.recording.indexOf('base64') !== -1 ? req.body.recording.split('base64,')[1] : req.body.recording, 'base64');
+        checker.recording = decodedRecording;
+    }
 
 let updated = await checker.save();
 if(updated){

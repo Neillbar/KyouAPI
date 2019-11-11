@@ -9,6 +9,7 @@ var _require = require('express'),
 
 var image2base64 = require('image-to-base64');
 var attachmentSchema = require('../Schemas/attachmentsSchema');
+var complaintSchema = require('../Schemas/complaintsSchema');
 var fs = require('fs');
 
 module.exports = function (_ref) {
@@ -49,56 +50,91 @@ module.exports = function (_ref) {
 
     api.post('/attachment', function () {
         var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(req, res) {
-            var decodedFile, checker, newAtt, newentry, updated;
+            var FindComplaint, checker, newAtt, decodedImage, decodedRecording, newentry, _decodedImage, _decodedRecording, updated;
+
             return regeneratorRuntime.wrap(function _callee2$(_context2) {
                 while (1) {
                     switch (_context2.prev = _context2.next) {
                         case 0:
-                            //take base64 to Buffer
-                            decodedFile = Buffer.from(req.body.image.indexOf('base64') !== -1 ? req.body.image.split('base64,')[1] : req.body.image, 'base64');
-                            _context2.next = 3;
-                            return attachmentSchema.findOne({ name: req.body.name });
+                            _context2.next = 2;
+                            return complaintSchema.findOne({ complaintID: req.body.complaintID });
 
-                        case 3:
+                        case 2:
+                            FindComplaint = _context2.sent;
+
+                            if (FindComplaint) {
+                                _context2.next = 5;
+                                break;
+                            }
+
+                            return _context2.abrupt('return', res.status(400).send("No complaints found can't add attachments"));
+
+                        case 5:
+                            _context2.next = 7;
+                            return attachmentSchema.findOne({ complaintsID: req.body.complaintID });
+
+                        case 7:
                             checker = _context2.sent;
 
                             if (checker) {
-                                _context2.next = 14;
+                                _context2.next = 19;
                                 break;
                             }
 
                             newAtt = new attachmentSchema();
 
-                            newAtt.name = req.body.name;
-                            newAtt.image.push(decodedFile);
-                            _context2.next = 10;
+                            newAtt.complaintsID = req.body.complaintID;
+
+                            if (req.body.type == "image") {
+                                decodedImage = Buffer.from(req.body.image.indexOf('base64') !== -1 ? req.body.image.split('base64,')[1] : req.body.image, 'base64');
+
+                                newAtt.image.push(decodedImage);
+                            }
+
+                            if (req.body.type == "recording") {
+                                decodedRecording = Buffer.from(req.body.recording.indexOf('base64') !== -1 ? req.body.recording.split('base64,')[1] : req.body.recording, 'base64');
+
+                                newAtt.recording = decodedRecording;
+                            }
+
+                            _context2.next = 15;
                             return newAtt.save();
 
-                        case 10:
+                        case 15:
                             newentry = _context2.sent;
 
                             if (newentry) {
                                 res.send(newentry);
                             }
 
-                            _context2.next = 19;
+                            _context2.next = 25;
                             break;
 
-                        case 14:
+                        case 19:
 
-                            checker.image.push(decodedFile);
+                            if (req.body.type == "image") {
+                                _decodedImage = Buffer.from(req.body.image.indexOf('base64') !== -1 ? req.body.image.split('base64,')[1] : req.body.image, 'base64');
 
-                            _context2.next = 17;
+                                checker.image.push(_decodedImage);
+                            }
+
+                            if (req.body.type == "recording") {
+                                _decodedRecording = Buffer.from(req.body.recording.indexOf('base64') !== -1 ? req.body.recording.split('base64,')[1] : req.body.recording, 'base64');
+
+                                checker.recording = _decodedRecording;
+                            }
+
+                            _context2.next = 23;
                             return checker.save();
 
-                        case 17:
+                        case 23:
                             updated = _context2.sent;
 
                             if (updated) {
                                 res.send(updated);
                             }
 
-                        case 19:
+                        case 25:
                         case 'end':
                             return _context2.stop();
                     }

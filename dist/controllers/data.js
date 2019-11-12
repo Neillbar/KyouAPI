@@ -50,7 +50,7 @@ module.exports = function (_ref) {
 
     api.post('/attachment', function () {
         var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(req, res) {
-            var FindComplaint, checker, newAtt, decodedImage, decodedRecording, newentry, _decodedImage, _decodedRecording, updated;
+            var FindComplaint, checker, newAtt, decodedImage, decodedRecording, _decodedRecording, newentry, _decodedImage, _decodedRecording2, _decodedRecording3, updated;
 
             return regeneratorRuntime.wrap(function _callee2$(_context2) {
                 while (1) {
@@ -77,7 +77,7 @@ module.exports = function (_ref) {
                             checker = _context2.sent;
 
                             if (checker) {
-                                _context2.next = 19;
+                                _context2.next = 20;
                                 break;
                             }
 
@@ -96,21 +96,26 @@ module.exports = function (_ref) {
 
                                 newAtt.recording = decodedRecording;
                             }
+                            if (req.body.type == "video") {
+                                _decodedRecording = Buffer.from(req.body.video.indexOf('base64') !== -1 ? req.body.video.split('base64,')[1] : req.body.video, 'base64');
 
-                            _context2.next = 15;
+                                newAtt.video = _decodedRecording;
+                            }
+
+                            _context2.next = 16;
                             return newAtt.save();
 
-                        case 15:
+                        case 16:
                             newentry = _context2.sent;
 
                             if (newentry) {
                                 res.send(newentry);
                             }
 
-                            _context2.next = 25;
+                            _context2.next = 27;
                             break;
 
-                        case 19:
+                        case 20:
 
                             if (req.body.type == "image") {
                                 _decodedImage = Buffer.from(req.body.image.indexOf('base64') !== -1 ? req.body.image.split('base64,')[1] : req.body.image, 'base64');
@@ -119,22 +124,27 @@ module.exports = function (_ref) {
                             }
 
                             if (req.body.type == "recording") {
-                                _decodedRecording = Buffer.from(req.body.recording.indexOf('base64') !== -1 ? req.body.recording.split('base64,')[1] : req.body.recording, 'base64');
+                                _decodedRecording2 = Buffer.from(req.body.recording.indexOf('base64') !== -1 ? req.body.recording.split('base64,')[1] : req.body.recording, 'base64');
 
-                                checker.recording = _decodedRecording;
+                                checker.recording = _decodedRecording2;
+                            }
+                            if (req.body.type == "video") {
+                                _decodedRecording3 = Buffer.from(req.body.video.indexOf('base64') !== -1 ? req.body.video.split('base64,')[1] : req.body.video, 'base64');
+
+                                newAtt.video = _decodedRecording3;
                             }
 
-                            _context2.next = 23;
+                            _context2.next = 25;
                             return checker.save();
 
-                        case 23:
+                        case 25:
                             updated = _context2.sent;
 
                             if (updated) {
                                 res.send(updated);
                             }
 
-                        case 25:
+                        case 27:
                         case 'end':
                             return _context2.stop();
                     }

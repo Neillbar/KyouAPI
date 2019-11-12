@@ -7,6 +7,7 @@ var attachementSchema = new Schema({
     complaintsID: String,
     image: [Buffer],
     recording: Buffer,
+    video: Buffer,
     convertedText: String
 });
 

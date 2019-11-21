@@ -15,7 +15,7 @@ var addComplaint = function () {
 
                     case 2:
                         findUser = _context.sent;
-                        randomID = uniqid();
+                        randomID = uniqid.time();
                         newComplaint = new complaintScheme();
 
                         newComplaint.complaintID = randomID;

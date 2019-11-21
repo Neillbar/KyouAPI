@@ -9,11 +9,12 @@ var uniqid = require('uniqid');
 async function addComplaint(req,res){
 
 let findUser = await users.findOne({idNumber: req.body.loggedBy});
-    let randomID = uniqid();
+    let randomID = uniqid.time();
     var newComplaint = new complaintScheme();
     newComplaint.complaintID = randomID;
     newComplaint.loggedBy = req.body.loggedBy;
     newComplaint.hospID = req.body.hospID;
+    newComplaint.hospName = req.body.hospName;
     newComplaint.type = req.body.type;
     newComplaint.complaintText = req.body.complaintText;
     newComplaint.progress = req.body.progress;

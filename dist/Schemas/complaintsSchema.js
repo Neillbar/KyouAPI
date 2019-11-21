@@ -10,7 +10,7 @@ var Complaints = new Schema({
   hospID: { type: String, required: true },
   type: { type: String, required: true },
   date: { type: Date, default: Date.now },
-  complaintText: { type: String },
+  complaintText: { type: Text },
   progress: { type: String },
   attachments: { type: String, required: true }
 });

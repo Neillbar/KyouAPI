@@ -12,7 +12,10 @@ app.server = http.createServer(app);
 //middleWare
 
 //passport config
-app.use(bodyParser.json());
+app.use(bodyParser.json({
+    extended: true,
+    limit: '50mb'
+}));
 
 //api route /api
 app.use('/api',routes);

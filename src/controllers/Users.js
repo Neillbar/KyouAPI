@@ -40,16 +40,16 @@ async function  registerUserFunction(req,res){
 
 async function LoginUser(req,res){
 
-let User = await  newUser.findOne({idNumber: req.body.idNumber});
+let User = await  newUser.findOne({email: req.body.email});
 
 if(!User){
     return res.status(400).send("user does not exist");
 }
 
-if(User.email !== req.body.email){
-return res.status(400).send("Email does not exists in the database");
+// if(User.email !== req.body.email){
+// return res.status(400).send("Email does not exists in the database");
 
-}
+// }
 
 if(User.password !== md5(req.body.password)){
 

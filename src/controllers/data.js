@@ -37,10 +37,6 @@ if(!FindComplaint){
 
 // //take base64 to Buffer
 
-
-
-    
-
 let checker = await attachmentSchema.findOne({complaintsID: req.body.complaintID});
 
 if(!checker){
@@ -48,19 +44,22 @@ if(!checker){
     newAtt.complaintsID = req.body.complaintID;
     
     if (req.body.type == "image"){
-        let decodedImage = Buffer.from(req.body.image.indexOf('base64') !== -1 ? req.body.image.split('base64,')[1] : req.body.image, 'base64');
-        newAtt.image.push(decodedImage);
+        //let decodedImage = Buffer.from(req.body.image.indexOf('base64') !== -1 ? req.body.image.split('base64,')[1] : req.body.image, 'base64');
+        newAtt.image.path.push(req.body.image);
+        newAtt.image.imageID.push(req.body.imageID);
     }
     
     if(req.body.type == "recording"){
     
-        let decodedRecording = Buffer.from(req.body.recording.indexOf('base64') !== -1 ? req.body.recording.split('base64,')[1] : req.body.recording, 'base64');
-        newAtt.recording = decodedRecording;
+       // let decodedRecording = Buffer.from(req.body.recording.indexOf('base64') !== -1 ? req.body.recording.split('base64,')[1] : req.body.recording, 'base64');
+        newAtt.recording = req.body.recording;
+        newAtt.recordingID = req.body.recordingID;
     }
     if(req.body.type == "video"){
     
-        let decodedVideo = Buffer.from(req.body.video.indexOf('base64') !== -1 ? req.body.video.split('base64,')[1] : req.body.video, 'base64');
-        newAtt.video = decodedVideo;
+        //let decodedVideo = Buffer.from(req.body.video.indexOf('base64') !== -1 ? req.body.video.split('base64,')[1] : req.body.video, 'base64');
+        newAtt.video = req.body.video;
+        newAtt.videoID = req.body.videoID;
     }
     
     
@@ -72,19 +71,22 @@ if(!checker){
 }else{
 
     if (req.body.type == "image"){
-        let decodedImage = Buffer.from(req.body.image.indexOf('base64') !== -1 ? req.body.image.split('base64,')[1] : req.body.image, 'base64');
-        checker.image.push(decodedImage);
+       // let decodedImage = Buffer.from(req.body.image.indexOf('base64') !== -1 ? req.body.image.split('base64,')[1] : req.body.image, 'base64');
+        checker.image.path.push(req.body.image);
+        newAtt.image.imageID.push(req.body.imageID);
     }
     
     if(req.body.type == "recording"){
     
-        let decodedRecording = Buffer.from(req.body.recording.indexOf('base64') !== -1 ? req.body.recording.split('base64,')[1] : req.body.recording, 'base64');
-        checker.recording = decodedRecording;
+        //let decodedRecording = Buffer.from(req.body.recording.indexOf('base64') !== -1 ? req.body.recording.split('base64,')[1] : req.body.recording, 'base64');
+        checker.recording = req.body.recording;
+        checker.recordingID = req.body.recordingID;
     }
     if(req.body.type == "video"){
     
-        let decodedVideo = Buffer.from(req.body.video.indexOf('base64') !== -1 ? req.body.video.split('base64,')[1] : req.body.video, 'base64');
-        checker.video = decodedVideo;
+       // let decodedVideo = Buffer.from(req.body.video.indexOf('base64') !== -1 ? req.body.video.split('base64,')[1] : req.body.video, 'base64');
+        checker.video = req.body.video;
+        checker.videoID = req.body.videoID;
     }
 
 let updated = await checker.save();
@@ -95,35 +97,6 @@ if(updated){
 
 }
 
-
-
-//take Buffer back to base64
-
-//let text = decodedFile.toString('base64')
-
-     //let subStr = req.body.image.indexOf('data/')
-    // let newSubstr = req.body.image.indexOf('base64')
-    // let tell = req.body.image;
-    // let imageType = tell.substring(subStr+6, newSubstr)
-
-   // console.log(subStr);
-    // console.log(tell);
-    // console.log(tell);
-    // console.log(imageType);
-
-
-//take base64 to a file! 
-    // fs.writeFile('test.png', decodedFile, function(err,written){
-    //     if(err) console.log(err);
-    //      else {
-    //       console.log("Successfully written");
-    //      }
-    //  });
-
-    // take file back to base64
-//let file = image2base64('./test.png');
-
-//console.log(await file);
 
 })
 

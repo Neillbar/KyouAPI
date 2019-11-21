@@ -1,0 +1,8 @@
+{
+    "appService.zipIgnorePattern": [
+        "node_modules{,/**}",
+        ".vscode{,/**}"
+    ],
+    "appService.defaultWebAppToDeploy": "/subscriptions/2b09bb79-26c0-4662-a3aa-88276dfbf29b/resourceGroups/appsvc_linux_centralus/providers/Microsoft.Web/sites/Kyou-new",
+    "appService.deploySubpath": ""
+}

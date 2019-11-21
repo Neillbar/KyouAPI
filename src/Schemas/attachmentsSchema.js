@@ -3,9 +3,11 @@ var Schema = mongoose.Schema;
 
 var attachementSchema = new Schema ({
     complaintsID: String,
-    image: [Buffer],
-    recording: Buffer,
-    video: Buffer,
+    image: [{path: String, imageID: Number}],
+    recording: String,
+    recordingID: String,
+    video: String,
+    videoID: Number,
     convertedText: String
 })
 

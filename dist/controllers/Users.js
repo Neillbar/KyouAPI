@@ -63,7 +63,7 @@ var LoginUser = function () {
                 switch (_context2.prev = _context2.next) {
                     case 0:
                         _context2.next = 2;
-                        return newUser.findOne({ idNumber: req.body.idNumber });
+                        return newUser.findOne({ email: req.body.email });
 
                     case 2:
                         User = _context2.sent;
@@ -76,26 +76,18 @@ var LoginUser = function () {
                         return _context2.abrupt('return', res.status(400).send("user does not exist"));
 
                     case 5:
-                        if (!(User.email !== req.body.email)) {
-                            _context2.next = 7;
-                            break;
-                        }
-
-                        return _context2.abrupt('return', res.status(400).send("Email does not exists in the database"));
-
-                    case 7:
                         if (!(User.password !== md5(req.body.password))) {
-                            _context2.next = 9;
+                            _context2.next = 7;
                             break;
                         }
 
                         return _context2.abrupt('return', res.status(400).send("Password is incorrect"));
 
-                    case 9:
+                    case 7:
 
                         res.send(User);
 
-                    case 10:
+                    case 8:
                     case 'end':
                         return _context2.stop();
                 }

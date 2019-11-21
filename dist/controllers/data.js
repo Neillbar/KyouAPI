@@ -50,7 +50,7 @@ module.exports = function (_ref) {
 
     api.post('/attachment', function () {
         var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(req, res) {
-            var FindComplaint, checker, newAtt, decodedImage, decodedRecording, _decodedRecording, newentry, _decodedImage, _decodedRecording2, _decodedRecording3, updated;
+            var FindComplaint, checker, newAtt, decodedImage, decodedRecording, decodedVideo, newentry, _decodedImage, _decodedRecording, _decodedVideo, updated;
 
             return regeneratorRuntime.wrap(function _callee2$(_context2) {
                 while (1) {
@@ -97,9 +97,9 @@ module.exports = function (_ref) {
                                 newAtt.recording = decodedRecording;
                             }
                             if (req.body.type == "video") {
-                                _decodedRecording = Buffer.from(req.body.video.indexOf('base64') !== -1 ? req.body.video.split('base64,')[1] : req.body.video, 'base64');
+                                decodedVideo = Buffer.from(req.body.video.indexOf('base64') !== -1 ? req.body.video.split('base64,')[1] : req.body.video, 'base64');
 
-                                newAtt.video = _decodedRecording;
+                                newAtt.video = decodedVideo;
                             }
 
                             _context2.next = 16;
@@ -124,14 +124,14 @@ module.exports = function (_ref) {
                             }
 
                             if (req.body.type == "recording") {
-                                _decodedRecording2 = Buffer.from(req.body.recording.indexOf('base64') !== -1 ? req.body.recording.split('base64,')[1] : req.body.recording, 'base64');
+                                _decodedRecording = Buffer.from(req.body.recording.indexOf('base64') !== -1 ? req.body.recording.split('base64,')[1] : req.body.recording, 'base64');
 
-                                checker.recording = _decodedRecording2;
+                                checker.recording = _decodedRecording;
                             }
                             if (req.body.type == "video") {
-                                _decodedRecording3 = Buffer.from(req.body.video.indexOf('base64') !== -1 ? req.body.video.split('base64,')[1] : req.body.video, 'base64');
+                                _decodedVideo = Buffer.from(req.body.video.indexOf('base64') !== -1 ? req.body.video.split('base64,')[1] : req.body.video, 'base64');
 
-                                newAtt.video = _decodedRecording3;
+                                checker.video = _decodedVideo;
                             }
 
                             _context2.next = 25;
@@ -187,16 +187,16 @@ module.exports = function (_ref) {
 
     );
 
-    api.get('/getByName/:name', function () {
+    api.get('/getByName/:complaintID', function () {
         var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(req, res) {
-            var findAttachment, allData, i, items, _name, convertBase64ToString, object;
+            var findAttachment, allData, i, items, _name, convertBase64ToString, object, _name2, VideoconvertBase64ToString, _object, _name3, RecordingconvertBase64ToString, _object2;
 
             return regeneratorRuntime.wrap(function _callee3$(_context3) {
                 while (1) {
                     switch (_context3.prev = _context3.next) {
                         case 0:
                             _context3.next = 2;
-                            return attachmentSchema.find({ name: req.params.name });
+                            return attachmentSchema.find({ complaintsID: req.params.complaintID });
 
                         case 2:
                             findAttachment = _context3.sent;
@@ -213,31 +213,68 @@ module.exports = function (_ref) {
                             i = 0;
                             //console.log(findAttachment[0].image.length);
 
+                            if (!findAttachment[0].image) {
+                                _context3.next = 19;
+                                break;
+                            }
+
                             _context3.t0 = regeneratorRuntime.keys(findAttachment[0].image);
 
-                        case 8:
+                        case 9:
                             if ((_context3.t1 = _context3.t0()).done) {
-                                _context3.next = 18;
+                                _context3.next = 19;
                                 break;
                             }
 
                             items = _context3.t1.value;
-                            _name = findAttachment[0].name;
-                            _context3.next = 13;
+                            _name = findAttachment[0].complaintsID;
+                            _context3.next = 14;
                             return findAttachment[0].image[items].toString('base64');
 
-                        case 13:
+                        case 14:
                             convertBase64ToString = _context3.sent;
-                            object = { name: _name, image: convertBase64ToString };
+                            object = { complaintsID: _name, image: convertBase64ToString };
 
                             allData.push(object);
-                            _context3.next = 8;
+                            _context3.next = 9;
                             break;
 
-                        case 18:
+                        case 19:
+                            if (!findAttachment[0].video) {
+                                _context3.next = 26;
+                                break;
+                            }
+
+                            _name2 = findAttachment[0].complaintsID;
+                            _context3.next = 23;
+                            return findAttachment[0].video.toString('base64');
+
+                        case 23:
+                            VideoconvertBase64ToString = _context3.sent;
+                            _object = { complaintsID: _name2, video: VideoconvertBase64ToString };
+
+                            allData.push(_object);
+
+                        case 26:
+                            if (!findAttachment[0].recording) {
+                                _context3.next = 33;
+                                break;
+                            }
+
+                            _name3 = findAttachment[0].complaintsID;
+                            _context3.next = 30;
+                            return findAttachment[0].video.toString('base64');
+
+                        case 30:
+                            RecordingconvertBase64ToString = _context3.sent;
+                            _object2 = { complaintsID: _name3, recording: RecordingconvertBase64ToString };
+
+                            allData.push(_object2);
+
+                        case 33:
                             return _context3.abrupt('return', res.send(allData));
 
-                        case 19:
+                        case 34:
                         case 'end':
                             return _context3.stop();
                     }

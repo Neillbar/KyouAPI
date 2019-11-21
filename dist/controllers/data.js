@@ -50,8 +50,7 @@ module.exports = function (_ref) {
 
     api.post('/attachment', function () {
         var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(req, res) {
-            var FindComplaint, checker, newAtt, decodedImage, decodedRecording, decodedVideo, newentry, _decodedImage, _decodedRecording, _decodedVideo, updated;
-
+            var FindComplaint, checker, newAtt, newentry, updated;
             return regeneratorRuntime.wrap(function _callee2$(_context2) {
                 while (1) {
                     switch (_context2.prev = _context2.next) {
@@ -86,20 +85,22 @@ module.exports = function (_ref) {
                             newAtt.complaintsID = req.body.complaintID;
 
                             if (req.body.type == "image") {
-                                decodedImage = Buffer.from(req.body.image.indexOf('base64') !== -1 ? req.body.image.split('base64,')[1] : req.body.image, 'base64');
-
-                                newAtt.image.push(decodedImage);
+                                //let decodedImage = Buffer.from(req.body.image.indexOf('base64') !== -1 ? req.body.image.split('base64,')[1] : req.body.image, 'base64');
+                                newAtt.image.path.push(req.body.image);
+                                newAtt.image.imageID.push(req.body.imageID);
                             }
 
                             if (req.body.type == "recording") {
-                                decodedRecording = Buffer.from(req.body.recording.indexOf('base64') !== -1 ? req.body.recording.split('base64,')[1] : req.body.recording, 'base64');
 
-                                newAtt.recording = decodedRecording;
+                                // let decodedRecording = Buffer.from(req.body.recording.indexOf('base64') !== -1 ? req.body.recording.split('base64,')[1] : req.body.recording, 'base64');
+                                newAtt.recording = req.body.recording;
+                                newAtt.recordingID = req.body.recordingID;
                             }
                             if (req.body.type == "video") {
-                                decodedVideo = Buffer.from(req.body.video.indexOf('base64') !== -1 ? req.body.video.split('base64,')[1] : req.body.video, 'base64');
 
-                                newAtt.video = decodedVideo;
+                                //let decodedVideo = Buffer.from(req.body.video.indexOf('base64') !== -1 ? req.body.video.split('base64,')[1] : req.body.video, 'base64');
+                                newAtt.video = req.body.video;
+                                newAtt.videoID = req.body.videoID;
                             }
 
                             _context2.next = 16;
@@ -118,20 +119,22 @@ module.exports = function (_ref) {
                         case 20:
 
                             if (req.body.type == "image") {
-                                _decodedImage = Buffer.from(req.body.image.indexOf('base64') !== -1 ? req.body.image.split('base64,')[1] : req.body.image, 'base64');
-
-                                checker.image.push(_decodedImage);
+                                // let decodedImage = Buffer.from(req.body.image.indexOf('base64') !== -1 ? req.body.image.split('base64,')[1] : req.body.image, 'base64');
+                                checker.image.path.push(req.body.image);
+                                newAtt.image.imageID.push(req.body.imageID);
                             }
 
                             if (req.body.type == "recording") {
-                                _decodedRecording = Buffer.from(req.body.recording.indexOf('base64') !== -1 ? req.body.recording.split('base64,')[1] : req.body.recording, 'base64');
 
-                                checker.recording = _decodedRecording;
+                                //let decodedRecording = Buffer.from(req.body.recording.indexOf('base64') !== -1 ? req.body.recording.split('base64,')[1] : req.body.recording, 'base64');
+                                checker.recording = req.body.recording;
+                                checker.recordingID = req.body.recordingID;
                             }
                             if (req.body.type == "video") {
-                                _decodedVideo = Buffer.from(req.body.video.indexOf('base64') !== -1 ? req.body.video.split('base64,')[1] : req.body.video, 'base64');
 
-                                checker.video = _decodedVideo;
+                                // let decodedVideo = Buffer.from(req.body.video.indexOf('base64') !== -1 ? req.body.video.split('base64,')[1] : req.body.video, 'base64');
+                                checker.video = req.body.video;
+                                checker.videoID = req.body.videoID;
                             }
 
                             _context2.next = 25;
@@ -155,37 +158,7 @@ module.exports = function (_ref) {
         return function (_x3, _x4) {
             return _ref3.apply(this, arguments);
         };
-    }()
-
-    //take Buffer back to base64
-
-    //let text = decodedFile.toString('base64')
-
-    //let subStr = req.body.image.indexOf('data/')
-    // let newSubstr = req.body.image.indexOf('base64')
-    // let tell = req.body.image;
-    // let imageType = tell.substring(subStr+6, newSubstr)
-
-    // console.log(subStr);
-    // console.log(tell);
-    // console.log(tell);
-    // console.log(imageType);
-
-
-    //take base64 to a file! 
-    // fs.writeFile('test.png', decodedFile, function(err,written){
-    //     if(err) console.log(err);
-    //      else {
-    //       console.log("Successfully written");
-    //      }
-    //  });
-
-    // take file back to base64
-    //let file = image2base64('./test.png');
-
-    //console.log(await file);
-
-    );
+    }());
 
     api.get('/getByName/:complaintID', function () {
         var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(req, res) {

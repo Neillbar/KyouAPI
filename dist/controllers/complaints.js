@@ -21,33 +21,34 @@ var addComplaint = function () {
                         newComplaint.complaintID = randomID;
                         newComplaint.loggedBy = req.body.loggedBy;
                         newComplaint.hospID = req.body.hospID;
+                        newComplaint.hospName = req.body.hospName;
                         newComplaint.type = req.body.type;
                         newComplaint.complaintText = req.body.complaintText;
                         newComplaint.progress = req.body.progress;
                         findUser.complaints.push(randomID);
                         newComplaint.attachments = req.body.attachments;
-                        _context.next = 15;
+                        _context.next = 16;
                         return newComplaint.save();
 
-                    case 15:
+                    case 16:
                         savedComplaint = _context.sent;
-                        _context.next = 18;
+                        _context.next = 19;
                         return findUser.save();
 
-                    case 18:
+                    case 19:
                         SaveComplaintToUser = _context.sent;
 
                         if (!(savedComplaint && SaveComplaintToUser)) {
-                            _context.next = 23;
+                            _context.next = 24;
                             break;
                         }
 
                         return _context.abrupt('return', res.status(200).json({ message: "Success", ComplaintID: randomID }));
 
-                    case 23:
+                    case 24:
                         return _context.abrupt('return', res.status(400).send({ message: "Failure Saving Data" }));
 
-                    case 24:
+                    case 25:
                     case 'end':
                         return _context.stop();
                 }

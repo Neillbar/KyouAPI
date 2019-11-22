@@ -45,6 +45,9 @@ if(!checker){
     
     if (req.body.type == "image"){
         //let decodedImage = Buffer.from(req.body.image.indexOf('base64') !== -1 ? req.body.image.split('base64,')[1] : req.body.image, 'base64');
+        // newAtt.image.push.path(req.body.image);
+        // newAtt.image.push.imageID(req.body.imageID);
+
         newAtt.image.path.push(req.body.image);
         newAtt.image.imageID.push(req.body.imageID);
     }
@@ -73,7 +76,9 @@ if(!checker){
     if (req.body.type == "image"){
        // let decodedImage = Buffer.from(req.body.image.indexOf('base64') !== -1 ? req.body.image.split('base64,')[1] : req.body.image, 'base64');
         checker.image.path.push(req.body.image);
-        newAtt.image.imageID.push(req.body.imageID);
+        checker.image.imageID.push(req.body.imageID);
+
+       
     }
     
     if(req.body.type == "recording"){

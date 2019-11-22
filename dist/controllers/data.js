@@ -165,7 +165,7 @@ module.exports = function (_ref) {
 
     api.get('/getByName/:complaintID', function () {
         var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(req, res) {
-            var findAttachment, allData, i, items, _name, convertBase64ToString, object, _name2, VideoconvertBase64ToString, _object, _name3, RecordingconvertBase64ToString, _object2;
+            var findAttachment, mediaObject, items, _name;
 
             return regeneratorRuntime.wrap(function _callee3$(_context3) {
                 while (1) {
@@ -185,72 +185,49 @@ module.exports = function (_ref) {
                             return _context3.abrupt('return', res.status(400).send("Could not find attachments"));
 
                         case 5:
-                            allData = [];
-                            i = 0;
+                            mediaObject = { name: String, imagePath: [String], imageID: [Number], videoPath: String, videoID: Number, recordingPath: String, recordingID: String };
                             //console.log(findAttachment[0].image.length);
 
-                            if (!findAttachment[0].image) {
-                                _context3.next = 19;
-                                break;
+                            if (findAttachment[0].image) {
+
+                                for (items in findAttachment[0].image.path) {
+                                    _name = findAttachment[0].complaintsID;
+                                    //let convertBase64ToString = await findAttachment[0].image[items].toString('base64');
+
+                                    mediaObject.name = _name;
+                                    mediaObject.imagePath.push(findAttachment[0].image.path[items]);
+                                    mediaObject.imageID.push(findAttachment[0].image.imageID[items]);
+                                }
                             }
 
-                            _context3.t0 = regeneratorRuntime.keys(findAttachment[0].image);
+                            if (findAttachment[0].video) {
+                                mediaObject.videoPath = findAttachment[0].video;
+                                mediaObject.videoID = findAttachment[0].videoID;
 
-                        case 9:
-                            if ((_context3.t1 = _context3.t0()).done) {
-                                _context3.next = 19;
-                                break;
+                                // let name = findAttachment[0].complaintsID;
+
+                                // let VideoconvertBase64ToString = await findAttachment[0].video.toString('base64');
+                                // let object = {complaintsID:name,video:VideoconvertBase64ToString};
+                                // allData.push(object);
                             }
 
-                            items = _context3.t1.value;
-                            _name = findAttachment[0].complaintsID;
-                            _context3.next = 14;
-                            return findAttachment[0].image[items].toString('base64');
+                            if (findAttachment[0].recording) {
+                                mediaObject.recordingPath = findAttachment[0].recording;
+                                mediaObject.recordingID = findAttachment[0].recordingID;
 
-                        case 14:
-                            convertBase64ToString = _context3.sent;
-                            object = { complaintsID: _name, image: convertBase64ToString };
-
-                            allData.push(object);
-                            _context3.next = 9;
-                            break;
-
-                        case 19:
-                            if (!findAttachment[0].video) {
-                                _context3.next = 26;
-                                break;
+                                // let name = findAttachment[0].complaintsID;
+                                // let RecordingconvertBase64ToString = await findAttachment[0].video.toString('base64');
+                                // let object = {complaintsID:name,recording:RecordingconvertBase64ToString};
+                                // allData.push(object);
                             }
 
-                            _name2 = findAttachment[0].complaintsID;
-                            _context3.next = 23;
-                            return findAttachment[0].video.toString('base64');
+                            //console.log(allData[0]);
 
-                        case 23:
-                            VideoconvertBase64ToString = _context3.sent;
-                            _object = { complaintsID: _name2, video: VideoconvertBase64ToString };
+                            //console.log(findAttachment[0].image[1].toString('base64'));
 
-                            allData.push(_object);
+                            return _context3.abrupt('return', res.send(mediaObject));
 
-                        case 26:
-                            if (!findAttachment[0].recording) {
-                                _context3.next = 33;
-                                break;
-                            }
-
-                            _name3 = findAttachment[0].complaintsID;
-                            _context3.next = 30;
-                            return findAttachment[0].video.toString('base64');
-
-                        case 30:
-                            RecordingconvertBase64ToString = _context3.sent;
-                            _object2 = { complaintsID: _name3, recording: RecordingconvertBase64ToString };
-
-                            allData.push(_object2);
-
-                        case 33:
-                            return _context3.abrupt('return', res.send(allData));
-
-                        case 34:
+                        case 10:
                         case 'end':
                             return _context3.stop();
                     }

@@ -116,34 +116,40 @@ api.get('/getByName/:complaintID', async (req,res) => {
 
 
 
-let allData = [];
-var i = 0;
+
+let mediaObject = {name:String,imagePath: [String], imageID: [Number],videoPath:String,videoID:Number,recordingPath:String,recordingID:String};
 //console.log(findAttachment[0].image.length);
 if(findAttachment[0].image){
 
-for(var items in  findAttachment[0].image){
+for(var items in  findAttachment[0].image.path){
+   
     let name = findAttachment[0].complaintsID;
-   let convertBase64ToString = await findAttachment[0].image[items].toString('base64');
-
-let object = {complaintsID:name,image:convertBase64ToString };
-allData.push(object);
+   //let convertBase64ToString = await findAttachment[0].image[items].toString('base64');
+   mediaObject.name = name;
+   mediaObject.imagePath.push(findAttachment[0].image.path[items]);
+   mediaObject.imageID.push(findAttachment[0].image.imageID[items]);
 }
 }
 
 if(findAttachment[0].video){
-    let name = findAttachment[0].complaintsID;
+    mediaObject.videoPath = findAttachment[0].video;
+    mediaObject.videoID = findAttachment[0].videoID;
+    
+    // let name = findAttachment[0].complaintsID;
 
-    let VideoconvertBase64ToString = await findAttachment[0].video.toString('base64');
-    let object = {complaintsID:name,video:VideoconvertBase64ToString};
-    allData.push(object);
+    // let VideoconvertBase64ToString = await findAttachment[0].video.toString('base64');
+    // let object = {complaintsID:name,video:VideoconvertBase64ToString};
+    // allData.push(object);
 }
 
 if(findAttachment[0].recording){
-    let name = findAttachment[0].complaintsID;
+mediaObject.recordingPath = findAttachment[0].recording;
+mediaObject.recordingID = findAttachment[0].recordingID;
 
-    let RecordingconvertBase64ToString = await findAttachment[0].video.toString('base64');
-    let object = {complaintsID:name,recording:RecordingconvertBase64ToString};
-    allData.push(object);
+    // let name = findAttachment[0].complaintsID;
+    // let RecordingconvertBase64ToString = await findAttachment[0].video.toString('base64');
+    // let object = {complaintsID:name,recording:RecordingconvertBase64ToString};
+    // allData.push(object);
 
 }
 
@@ -152,7 +158,7 @@ if(findAttachment[0].recording){
 
 //console.log(findAttachment[0].image[1].toString('base64'));
 
-return res.send(allData);
+return res.send(mediaObject);
 
 
 

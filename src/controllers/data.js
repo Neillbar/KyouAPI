@@ -122,12 +122,12 @@ let mediaObject = {name:String,imagePath: [String], imageID: [Number],videoPath:
 if(findAttachment[0].image){
 
 for(var items in  findAttachment[0].image.path){
-   
-    let name = findAttachment[0].complaintsID;
-   //let convertBase64ToString = await findAttachment[0].image[items].toString('base64');
+   if(findAttachment[0].image.path[items] !== null){
+   let name = findAttachment[0].complaintsID;
    mediaObject.name = name;
    mediaObject.imagePath.push(findAttachment[0].image.path[items]);
    mediaObject.imageID.push(findAttachment[0].image.imageID[items]);
+   }
 }
 }
 

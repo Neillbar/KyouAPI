@@ -108,7 +108,7 @@ var getallComplaintsForUser = function () {
                         userID = req.params.userID;
 
                         _context3.next = 3;
-                        return complaintScheme.find({ loggedBy: userID });
+                        return complaintScheme.find({ loggedBy: userID }).sort({ date: -1 });
 
                     case 3:
                         findComplaints = _context3.sent;

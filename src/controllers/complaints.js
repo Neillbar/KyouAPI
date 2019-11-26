@@ -49,7 +49,7 @@ res.status(200).json(findSpeseficComplaint);
 async function getallComplaintsForUser(req,res){
 userID = req.params.userID;
 
-let findComplaints = await complaintScheme.find({loggedBy: userID});
+let findComplaints = await complaintScheme.find({loggedBy: userID}).sort({date: -1});
 
 if(findComplaints.length < 1){
     return res.status(400).send("No complaints found for this user");
